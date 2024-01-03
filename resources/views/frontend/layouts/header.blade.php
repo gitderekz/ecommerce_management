@@ -212,3 +212,10 @@
     </div>
     <!--/ End Header Inner -->
 </header>
+{{-- php artisan cache:clear
+php artisan view:clear
+php artisan event:clear
+php artisan queue:clear
+php artisan route:clear
+php artisan config:clear
+php artisan schedule:clear-cache --}}
