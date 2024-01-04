@@ -50,7 +50,7 @@
                       </sub>
                     </td>
                     <td>{{(($product->is_featured==1)? 'Yes': 'No')}}</td>
-                    <td>${{$product->price}}</td>
+                    <td>Tsh{{$product->price}}</td>
                     <td>  {{$product->discount}}%</td>
                     <td>{{$product->size}}</td>
                     <td>{{$product->condition}}</td>

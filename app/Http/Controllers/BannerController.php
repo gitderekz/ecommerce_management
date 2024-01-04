@@ -40,15 +40,22 @@ class BannerController extends Controller
         $this->validate($request,[
             'title'=>'string|required|max:50',
             'description'=>'string|nullable',
-            'photo'=>'string|required',
+            // 'photo'=>'string|required',
+            'photo'=>'required',
             'status'=>'required|in:active,inactive',
         ]);
+
+        // STORE IN STORAGE
+        $time = time();
+        $request->photo->storeAs('photos/1/', $time.'.'.$request->photo->extension());
+
         $data=$request->all();
         $slug=Str::slug($request->title);
         $count=Banner::where('slug',$slug)->count();
         if($count>0){
             $slug=$slug.'-'.date('ymdis').'-'.rand(0,999);
         }
+        $data['photo'] = '/storage/photos/1/'.$time.'.'.$request->photo->extension();
         $data['slug']=$slug;
         // return $slug;
         $status=Banner::create($data);

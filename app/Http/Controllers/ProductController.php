@@ -49,7 +49,8 @@ class ProductController extends Controller
             'title'=>'string|required',
             'summary'=>'string|required',
             'description'=>'string|nullable',
-            'photo'=>'string|required',
+            // 'photo'=>'string|required',
+            'photo'=>'required',
             'size'=>'nullable',
             'stock'=>"required|numeric",
             'cat_id'=>'required|exists:categories,id',
@@ -62,12 +63,22 @@ class ProductController extends Controller
             'discount'=>'nullable|numeric'
         ]);
 
+        // dd($request->photo->getClientOriginalName());
+        // dd(public_path());
+        // STORE IN PUBLIC
+        // dd( 'storage/photos/1/'.time().'.'.$request->photo->extension() );
+        // $request->photo->move('storage/photos/1/', time().'.'.$request->photo->extension());
+        // STORE IN STORAGE
+        $time = time();
+        $request->photo->storeAs('photos/1/', $time.'.'.$request->photo->extension());
+
         $data=$request->all();
         $slug=Str::slug($request->title);
         $count=Product::where('slug',$slug)->count();
         if($count>0){
             $slug=$slug.'-'.date('ymdis').'-'.rand(0,999);
         }
+        $data['photo'] = '/storage/photos/1/'.$time.'.'.$request->photo->extension();
         $data['slug']=$slug;
         $data['is_featured']=$request->input('is_featured',0);
         $size=$request->input('size');
